@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 to = ['purshoth27@gmail.com','athishpv2525@gmail.com']
 
-path = r'/sdcard/Scripts/Python/anime_webScrapping/lPopGmUpdate'
+path = r'/sdc/home/vsts/test/test/lPopGmUpdate'
     
 with open(path+'/gmStat.json') as json_read:
     jsData = json.load(json_read)
@@ -27,7 +27,7 @@ for s in sol:
         pass
     else:
         checker = True
-        sys.path.insert(1,r'/sdcard/Scripts/Python/Google_API/Gmail-API-project/Gmail_API_scripts')
+        sys.path.insert(1,r'/home/vsts/test/test/Gmail_API')
 
         from Gmail_API import Gmail_API
         sendMail = Gmail_API.createMail
