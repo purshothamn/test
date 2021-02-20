@@ -9,7 +9,7 @@ path = r'/home/vsts/test/test'
 sys.path.insert(1,r'/home/vsts/test/test/Google_Drive_API')
 from Google_Drive_API import Google_Drive_API
 
-Google_Drive_API.listFiles()
+print(Google_Drive_API.listFiles())
     
 # with open(path+'/gmStat.json') as json_read:
 #     jsData = json.load(json_read)
