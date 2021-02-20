@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 from apiclient import discovery
 from apiclient.http import MediaIoBaseDownload, MediaFileUpload
 
-path = r'/home/vsts/test/test/Gmail_API/'
+path = r'/home/vsts/test/test/Google_Drive_API/'
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
 creds = None
