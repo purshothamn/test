@@ -8,13 +8,13 @@ from google.auth.transport.requests import Request
 from apiclient import discovery
 from apiclient.http import MediaIoBaseDownload, MediaFileUpload
 
-path = r'D:\Scripts\Python\Google_API\Google-Drive-API-project\Google_Drive_API_scripts'
+path = r'/home/vsts/test/test/Gmail_API/'
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
 creds = None
 
-if os.path.exists(path+'\\token.pickle'):
-    with open(path+'\\token.pickle', 'rb') as token:
+if os.path.exists(path+'token.pickle'):
+    with open(path+'token.pickle', 'rb') as token:
         creds = pickle.load(token)
 
 if not creds or not creds.valid:
@@ -22,9 +22,9 @@ if not creds or not creds.valid:
         creds.refresh(Request())
     else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            path+'\\credentials.json', SCOPES)
+            path+'credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
-    with open(path+'\\token.pickle', 'wb') as token:
+    with open(path+'token.pickle', 'wb') as token:
         pickle.dump(creds, token)
 
 drive_service = build('drive', 'v3', credentials=creds)
