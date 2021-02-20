@@ -12,7 +12,7 @@ from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 
-path = './Gmail_API/'
+path = '/home/vsts/test/test/Gmail_API/'
 SCOPES = ['https://mail.google.com/']
 
 creds = None
