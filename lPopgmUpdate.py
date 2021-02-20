@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 to = ['purshoth27@gmail.com','athishpv2525@gmail.com']
 
-path = r'/sdc/home/vsts/test/test/lPopGmUpdate'
+path = r'/home/vsts/test/test/lPopGmUpdate'
     
 with open(path+'/gmStat.json') as json_read:
     jsData = json.load(json_read)
