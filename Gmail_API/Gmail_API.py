@@ -12,13 +12,13 @@ from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 
-path = r'D:\Scripts\Python\Google_API\Gmail-API-project\Gmail_API_scripts'
+path = './Gmail_API/'
 SCOPES = ['https://mail.google.com/']
 
 creds = None
 
-if os.path.exists(path+'\\token.pickle'):
-    with open(path+'\\token.pickle', 'rb') as token:
+if os.path.exists(path+'token.pickle'):
+    with open(path+'token.pickle', 'rb') as token:
         creds = pickle.load(token)
 
 if not creds or not creds.valid:
@@ -26,9 +26,9 @@ if not creds or not creds.valid:
         creds.refresh(Request())
     else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            path+'\\credentials.json', SCOPES)
+            path+'credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
-    with open(path+'\\token.pickle', 'wb') as token:
+    with open(path+'token.pickle', 'wb') as token:
         pickle.dump(creds, token)
 
 service = build('gmail', 'v1', credentials=creds, cache_discovery=False)
