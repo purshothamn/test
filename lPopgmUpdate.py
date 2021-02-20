@@ -5,6 +5,11 @@ from bs4 import BeautifulSoup
 to = ['purshoth27@gmail.com','athishpv2525@gmail.com']
 
 path = r'/home/vsts/test/test'
+
+sys.path.insert(1,r'/home/vsts/test/test/Google_Drive_API')
+from Google_Drive_API import Google_Drive_API
+
+Google_Drive_API.download('1Nfp0Ad-juwlO4vCc_kPp81-k1ZGG1peM','gmStat.json')
     
 with open(path+'/gmStat.json') as json_read:
     jsData = json.load(json_read)
