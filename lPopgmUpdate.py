@@ -13,7 +13,7 @@ drive = Drive_API()
 
 name, Id = drive.searchFile('gmStat.json')[0]["Name"], drive.searchFile('gmStat.json')[0]['Id']
 
-drive.download(Id)
+drive.download(Id,name)
     
 with open(path+'/gmStat.json') as json_read:
     jsData = json.load(json_read)
