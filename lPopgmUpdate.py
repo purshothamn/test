@@ -54,7 +54,7 @@ while True:
             json.dump(jsData,json_write)
         drive.deleteFile('1TiZAwS_7Bs1X3oxBy9fic3JyGUl6VBIB')
         drive.upload(path+'/gmStat.json')
-    time.sleep(900)
     if startTime.hour == 22:
         print('Completed task at',startTime.ctime())
         break
+    time.sleep(900)
