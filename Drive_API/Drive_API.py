@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 from apiclient import discovery
 from apiclient.http import MediaIoBaseDownload, MediaFileUpload
 
-path = r'/home/vsts/test/test/Google_Drive_API/'
+path = r'/home/vsts/test/test/Drive_API/'
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
 creds = None
@@ -31,10 +31,10 @@ drive_service = build('drive', 'v3', credentials=creds)
 
 class Drive_API:
     def __init__(self):
-        self.drive_service = drive_service
+        self.drive = drive
 
-    def download(id,path=os.path.join(os.getcwd(), 'temp.tmp')):
-        request = drive_service.files().get_media(fileId=id)
+    def download(self,id,path=os.path.join(os.getcwd(), 'temp.tmp')):
+        request = drive.files().get_media(fileId=id)
         fh = io.BytesIO()
         downloader = MediaIoBaseDownload(fh, request)
         done = False
@@ -44,25 +44,25 @@ class Drive_API:
             fh.seek(0)
             f.write(fh.read())
     
-    def listFiles(size=5,query=''):
-        if len(query) > 0:
-            results = drive_service.files().list(pageSize=size,fields='files(id, name)',q=query).execute()
+    def listFiles(self,parent=''):
+        if len(parent) > 0:
+            parent = self.searchFile(parent)[0]['Id']
+            query = f"'{parent}' in parents"
+            results = drive.files().list(q=query).execute()
         else:
-            results = drive_service.files().list(
-            pageSize=size,fields="files(id, name)").execute()
+            results = drive.files().list(fields="files(id, name)").execute()
         items = results.get('files', [])
-        l = {}
-        l['Name'] = []
-        l['Id'] = []
+        l = []
+        n = 0
         if not items:
             return []
         else:
             for item in items:
-                l['Name'].append(item['name'])
-                l['Id'].append(item['id'])
+                l.append({'Name':item['name'],'Id':item['id'],'index':n})
+                n +=1
             return l
     
-    def upload(files, mimetype='', folder_id=''):
+    def upload(self,files, mimetype='', folder_id=''):
         if (type(files) == list):
             pass
         else:
@@ -84,7 +84,7 @@ class Drive_API:
                     media = MediaFileUpload(file,
                                         mimetype=mimetype,
                                         resumable=True)
-                file = drive_service.files().create(body=file_metadata,
+                file = drive.files().create(body=file_metadata,
                                                     media_body=media,
                                                     fields='id').execute()
                 Id = '%s' % file.get('id')
@@ -94,7 +94,7 @@ class Drive_API:
                 Type = str(Type).replace('<class ','').replace('>',':')
                 print(Type,err)
 
-    def createFolder(folder_name,folder_id=''):
+    def createFolder(self,folder_name,folder_id=''):
         if type(folder_name) == list:
             pass
         else:
@@ -112,7 +112,7 @@ class Drive_API:
                         'name': folder_name,
                         'mimeType': 'application/vnd.google-apps.folder'
                     }
-                file = drive_service.files().create(body=file_metadata,
+                file = drive.files().create(body=file_metadata,
                                                     fields='id').execute()
                 Id = '%s' % file.get('id')
                 return Id
@@ -121,24 +121,37 @@ class Drive_API:
                 Type = str(Type).replace('<class ','').replace('>',':')
                 print(Type,err)
 
-    def searchFile(size,query,fields=None):
-        query = 'name contains '+"'"+query+"'"
-        results = drive_service.files().list(
-        pageSize=size,fields=fields,q=query).execute()
-        items = results.get('files', [])
-        l = {}
-        l['Name'] = []
-        l['Id'] = []
-        if not items:
-            print('No files found.')
+    def searchFile(self,query,findall=False,fields=None):
+        if findall:
+            query = 'name contains '+"'"+query+"'"
         else:
-            for item in items:
-                l['Name'].append(item['name'])
-                l['Id'].append(item['id'])
-            return l
+            query = 'name = '+"'"+query+"'"
+        results = drive.files().list(fields=fields,q=query).execute()
+        items = results.get('files', [])
+        l = []
+        n = 0
+        if fields != None:
+            return items
+        else:
+            if not items:
+                print('No files found.')
+            else:
+                for item in items:
+                    l.append({'Name':item['name'],'Id':item['id'],'index':n})
+                    n +=1
+                return l
 
-    def fileUpdates(fileName,fields='files/lastModifyingUser'):
-        query = 'name contains '+"'"+fileName+"'"
-        response = drive_service.files().list(q=query,fields=fields).execute()
+    def deleteFile(self,id):
+        try:
+            response = drive.files().delete(fileId=id).execute()
+        except Exception as err:
+            return err
+        else:
+            return 'Successfully deleted'
+    
+
+    def fileUpdates(self,fileName,fields='files/lastModifyingUser'):
+
+        response = self.searchFile(query=fileName,fields=fields)
         
         return response
