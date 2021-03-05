@@ -47,7 +47,7 @@ while True:
             link = s.find('a').attrs['href']
             body = f'{i} is added to Popular, here\'s the link: {link}'
             subject = 'New Popular Game'
-            sendMail(to,body,Subject=subject)
+            sendMail(to,body,Subject=subject,From='Nea <neas.update@gmail.com>')
 
     if checker:
         with open(path+'gmStat.json','w') as json_write:
