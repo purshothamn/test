@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 to = ['purshoth27@gmail.com','athishpv2525@gmail.com']
 
-path = r'/home/vsts/test/test'
+path = r'/home/vsts/test/test/'
 
 sys.path.insert(1,r'/home/vsts/test/test/Drive_API/')
 from Drive_API import Drive_API
