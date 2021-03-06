@@ -22,7 +22,10 @@ while True:
         jsData = json.load(json_read)
 
     startTime = datetime.datetime.now()
-    src = session.get(url='https://steamunlocked.net/all-games/')
+    try:
+        src = session.get(url='https://steamunlocked.net/all-games/')
+    except Exception as err:
+        print(err)
 
     soup = BeautifulSoup(src.content, 'lxml')
 
